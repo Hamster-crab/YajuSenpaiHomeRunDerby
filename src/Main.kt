@@ -16,17 +16,22 @@ import javax.swing.Timer
 class GamePanel : JPanel(), ActionListener {
     private val playerImage: Image
     private val ballImage: Image
-    private val playerSizeFactor = 1 / 2.0
+    private val playerSizeFactor = 1 / 4.0 // Reduced to 1/4 to make it half the current size
     private val ballSizeFactor = 1 / 5.0
     private var playerX = 200
     private var playerY = 600
     private var ballX = 200
     private var ballY = 0
-    private var ballSpeed = 5
+    private var ballSpeed = 10 // Consistent speed for the ball
     private var score = 0
     private var strikes = 0
     private var foulCount = 0 // ファールカウント
     private var isGameOver = false
+    private var message = "" // Variable to hold the message to be displayed
+    private var messageAlpha = 0 // Transparency of the message
+    private var messageDisplayTime = 0 // Counter for message display time
+
+    private var gameState = "START" // Game state: START, PLAYING, GAME_OVER
 
     private val timer: Timer
 
@@ -39,15 +44,20 @@ class GamePanel : JPanel(), ActionListener {
 
         addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent) {
-                if (isGameOver) return
-                swingBat()
+                if (gameState == "START") {
+                    gameState = "PLAYING"
+                } else if (isGameOver) {
+                    resetGame()
+                } else {
+                    swingBat()
+                }
                 repaint()
             }
         })
 
         addMouseMotionListener(object : MouseAdapter() {
             override fun mouseMoved(e: MouseEvent) {
-                if (isGameOver) return
+                if (isGameOver || gameState == "START") return
                 playerX = e.x - (playerImage.getWidth(this@GamePanel) * playerSizeFactor).toInt() / 2
                 repaint()
             }
@@ -73,6 +83,20 @@ class GamePanel : JPanel(), ActionListener {
     override fun paintComponent(g: Graphics) {
         super.paintComponent(g)
 
+        when (gameState) {
+            "START" -> drawStartScreen(g)
+            "PLAYING" -> drawGameScreen(g)
+            "GAME_OVER" -> drawGameOverScreen(g)
+        }
+    }
+
+    private fun drawStartScreen(g: Graphics) {
+        g.color = Color.WHITE
+        g.drawString("野獣先輩のホームランダービー", width / 2 - 80, height / 2 - 20)
+        g.drawString("クリックしてスタート", width / 2 - 60, height / 2)
+    }
+
+    private fun drawGameScreen(g: Graphics) {
         // Draw the player with the resized image
         val playerWidth = (playerImage.getWidth(this) * playerSizeFactor).toInt()
         val playerHeight = (playerImage.getHeight(this) * playerSizeFactor).toInt()
@@ -83,9 +107,9 @@ class GamePanel : JPanel(), ActionListener {
         val ballHeight = (ballImage.getHeight(this) * ballSizeFactor).toInt()
         g.drawImage(ballImage, ballX, ballY, ballWidth, ballHeight, this)
 
-        // Draw the hit zone as a light blue rectangle
+        // Draw the hit zone as a light blue circle
         g.color = Color.CYAN
-        g.drawRect(playerX, playerY, playerWidth, playerHeight)
+        g.drawOval(playerX, playerY, playerWidth, playerHeight)
 
         // Draw text information
         g.color = Color.WHITE
@@ -93,71 +117,97 @@ class GamePanel : JPanel(), ActionListener {
         g.drawString("Strikes: $strikes", 10, 40)
         g.drawString("Fouls: $foulCount", 10, 60)
 
-        if (isGameOver) {
-            g.color = Color.RED
-            g.drawString("Game Over", width / 2 - 50, height / 2)
-            g.drawString("Press F5 to Restart", width / 2 - 80, height / 2 + 20)
+        // Draw message at the bottom of the screen
+        if (messageAlpha > 0) {
+            val originalColor = g.color
+            g.color = Color(255, 255, 0, messageAlpha)
+            g.drawString(message, width / 2 - 50, height - height / 9)
+            g.color = originalColor
         }
     }
 
+    private fun drawGameOverScreen(g: Graphics) {
+        drawGameScreen(g)
+        g.color = Color.RED
+        g.drawString("Game Over", width / 2 - 50, height / 2)
+        g.drawString("Press F5 to Restart", width / 2 - 80, height / 2 + 20)
+    }
+
     override fun actionPerformed(e: ActionEvent) {
-        if (isGameOver) return
+        if (gameState != "PLAYING") return
+
         ballY += ballSpeed
         if (ballY > height) {
             if (!isBallInHittingZone()) {
                 foulCount++
-                if (foulCount >= 13) {
+                if (foulCount >= 100) {
                     gameOver()
                 }
             }
             resetBall()
+        }
+        if (messageDisplayTime > 0) {
+            messageDisplayTime--
+            messageAlpha = (255 * messageDisplayTime / 30).coerceAtLeast(0)
         }
         repaint()
     }
 
     private fun swingBat() {
         if (isBallInHittingZone()) {
-            // 50%の確率でファールにする
-            if (Math.random() < 0.5) {
+            // 20%の確率でファールにする
+            if (Math.random() < 0.2) {
                 println("ファール！")
+                message = "ファール！"
                 foulCount++
-                if (foulCount >= 13) {
+                if (foulCount >= 100) {
                     gameOver()
                 }
             } else {
                 println("ホームラン！")
+                message = "ホームラン！"
                 score += 1
                 resetBall()
             }
         } else {
             println("ファール！")
+            message = "ファール！"
             foulCount++
-            if (foulCount >= 13) {
+            if (foulCount >= 100) {
                 gameOver()
             }
         }
+        messageDisplayTime = 30 // Display the message for 0.5 seconds (30 frames at 60 FPS)
+        messageAlpha = 255 // Fully opaque initially
     }
 
     private fun isBallInHittingZone(): Boolean {
         val playerWidth = (playerImage.getWidth(this) * playerSizeFactor).toInt()
         val playerHeight = (playerImage.getHeight(this) * playerSizeFactor).toInt()
-        val batX = playerX + playerWidth
-        val batY = playerY
+        val playerCenterX = playerX + playerWidth / 2
+        val playerCenterY = playerY + playerHeight / 2
         val ballWidth = (ballImage.getWidth(this) * ballSizeFactor).toInt()
         val ballHeight = (ballImage.getHeight(this) * ballSizeFactor).toInt()
+        val ballCenterX = ballX + ballWidth / 2
+        val ballCenterY = ballY + ballHeight / 2
 
-        return ballX in (playerX..batX) && ballY in (batY..(batY + playerHeight)) &&
-                (ballX + ballWidth) in (playerX..batX) && (ballY + ballHeight) in (batY..(batY + playerHeight))
+        val distance = Math.sqrt(Math.pow((playerCenterX - ballCenterX).toDouble(), 2.0) +
+                Math.pow((playerCenterY - ballCenterY).toDouble(), 2.0))
+
+        return distance <= playerWidth / 2
     }
 
     private fun resetBall() {
         ballX = (Math.random() * (width - (ballImage.getWidth(this) * ballSizeFactor).toInt())).toInt()
         ballY = 0
-        ballSpeed = (5..15).random()
     }
 
     private fun gameOver() {
         isGameOver = true
+        gameState = "GAME_OVER"
+        message = "ゲームオーバー"
+        messageDisplayTime = 30
+        messageAlpha = 255
     }
 
     private fun resetGame() {
@@ -165,11 +215,14 @@ class GamePanel : JPanel(), ActionListener {
         playerY = 600
         ballX = 200
         ballY = 0
-        ballSpeed = 5
+        ballSpeed = 10 // Consistent speed for the ball
         score = 0
         strikes = 0
         foulCount = 0 // ファールカウントをリセット
         isGameOver = false
+        gameState = "START"
+        message = ""
+        messageAlpha = 0
         requestFocusInWindow() // Re-focus to ensure key events are captured
     }
 

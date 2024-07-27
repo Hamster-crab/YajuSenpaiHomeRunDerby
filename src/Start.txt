@@ -1,0 +1,1 @@
+kotlinc src/Main.kt -include-runtime -d Main.jar && jar uvf Main.jar asset/* && java -jar Main.jar
