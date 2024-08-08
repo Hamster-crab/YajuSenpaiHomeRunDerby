@@ -1,1 +1,1 @@
-kotlinc src/Main.kt -include-runtime -d Main.jar && jar uvf Main.jar asset/* && java -jar Main.jar
+g++ -o main src/main.cpp  -lGL -lGLU -lglut -lGLEW -lglfw -lSOIL -lfreetype -I/include/freetype && ./main
