@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 
 // FreeTypeのヘッダーファイル
-//#include <ft2build.h>
+//#include "ft2build.h"
 //#include FT_FREETYPE_H
 
 const int WIDTH = 400;
@@ -215,7 +215,7 @@ int main() {
         return -1;
     }
 
-    window = glfwCreateWindow(WIDTH, HEIGHT, "Baseball Game", NULL, NULL);
+    window = glfwCreateWindow(WIDTH, HEIGHT, "野獣先輩のホームランダービー", NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
