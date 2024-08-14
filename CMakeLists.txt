@@ -10,7 +10,7 @@ include_directories(include/freetype/internal)
 include_directories(include/freetype/internal/services)
 
 add_executable(YajuSenpaiHomeRunDerby
-        asset/ball.png
+        resources/ball.png
         fonts/playwrite-mexico/static/PlaywriteMX-ExtraLight.ttf
         fonts/playwrite-mexico/static/PlaywriteMX-Light.ttf
         fonts/playwrite-mexico/static/PlaywriteMX-Regular.ttf
@@ -106,7 +106,6 @@ add_executable(YajuSenpaiHomeRunDerby
         include/freetype/tttables.h
         include/freetype/tttags.h
         include/freetype/ttunpat.h
-        include/ft2build.h
         src/main.cpp
         src/Start.txt
         build.gradle.kts

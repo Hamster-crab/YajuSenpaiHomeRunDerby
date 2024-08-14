@@ -10,7 +10,7 @@
 	textures into OpenGL.  Also saving and
 	loading of images is supported.
 
-	I'm using Sean's Tool Box image loader as a base:
+	I'm using Sean's Tool Box imagesandvideos loader as a base:
 	http://www.nothings.org/
 
 	I'm upgrading it to load TGA and DDS files, and a direct
@@ -29,7 +29,7 @@
 	- MIPmap generation
 	- compressed texture S3TC formats (if supported)
 	- can pre-multiply alpha for you, for better compositing
-	- can flip image about the y-axis (except pre-compressed DDS files)
+	- can flip imagesandvideos about the y-axis (except pre-compressed DDS files)
 
 	Thanks to:
 	* Sean Barret - for the awesome stb_image
@@ -46,11 +46,11 @@ extern "C" {
 
 /**
 	The format of images that may be loaded (force_channels).
-	SOIL_LOAD_AUTO leaves the image in whatever format it was found.
-	SOIL_LOAD_L forces the image to load as Luminous (greyscale)
-	SOIL_LOAD_LA forces the image to load as Luminous with Alpha
-	SOIL_LOAD_RGB forces the image to load as Red Green Blue
-	SOIL_LOAD_RGBA forces the image to load as Red Green Blue Alpha
+	SOIL_LOAD_AUTO leaves the imagesandvideos in whatever format it was found.
+	SOIL_LOAD_L forces the imagesandvideos to load as Luminous (greyscale)
+	SOIL_LOAD_LA forces the imagesandvideos to load as Luminous with Alpha
+	SOIL_LOAD_RGB forces the imagesandvideos to load as Red Green Blue
+	SOIL_LOAD_RGBA forces the imagesandvideos to load as Red Green Blue Alpha
 **/
 enum
 {
@@ -66,7 +66,7 @@ enum
 	register a new texture ID using glGenTextures().
 	If the value passed into reuse_texture_ID > 0 then
 	SOIL will just re-use that texture ID (great for
-	reloading image assets in-game!)
+	reloading imagesandvideos assets in-game!)
 **/
 enum
 {
@@ -81,11 +81,11 @@ enum
 	SOIL_FLAG_TEXTURE_REPEATS will be ignored while
 	loading already-compressed DDS files.)
 
-	SOIL_FLAG_POWER_OF_TWO: force the image to be POT
+	SOIL_FLAG_POWER_OF_TWO: force the imagesandvideos to be POT
 	SOIL_FLAG_MIPMAPS: generate mipmaps for the texture
 	SOIL_FLAG_TEXTURE_REPEATS: otherwise will clamp
 	SOIL_FLAG_MULTIPLY_ALPHA: for using (GL_ONE,GL_ONE_MINUS_SRC_ALPHA) blending
-	SOIL_FLAG_INVERT_Y: flip the image vertically
+	SOIL_FLAG_INVERT_Y: flip the imagesandvideos vertically
 	SOIL_FLAG_COMPRESS_TO_DXT: if the card can display them, will convert RGB to DXT1, RGBA to DXT5
 	SOIL_FLAG_DDS_LOAD_DIRECT: will load DDS files directly without _ANY_ additional processing
 	SOIL_FLAG_NTSC_SAFE_RGB: clamps RGB components to the range [16,235]
@@ -122,7 +122,7 @@ enum
 /**
 	Defines the order of faces in a DDS cubemap.
 	I recommend that you use the same order in single
-	image cubemap files, so they will be interchangeable
+	imagesandvideos cubemap files, so they will be interchangeable
 	with DDS cubemaps when using SOIL.
 **/
 #define SOIL_DDS_CUBEMAP_FACE_ORDER "EWUDNS"
@@ -142,9 +142,9 @@ enum
 };
 
 /**
-	Loads an image from disk into an OpenGL texture.
+	Loads an imagesandvideos from disk into an OpenGL texture.
 	\param filename the name of the file to upload as a texture
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -166,7 +166,7 @@ unsigned int
 	\param y_neg_file the name of the file to upload as the -y cube face
 	\param z_pos_file the name of the file to upload as the +z cube face
 	\param z_neg_file the name of the file to upload as the -z cube face
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -186,10 +186,10 @@ unsigned int
 	);
 
 /**
-	Loads 1 image from disk and splits it into an OpenGL cubemap texture.
+	Loads 1 imagesandvideos from disk and splits it into an OpenGL cubemap texture.
 	\param filename the name of the file to upload as a texture
 	\param face_order the order of the faces in the file, any combination of NSWEUD, for North, South, Up, etc.
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -205,7 +205,7 @@ unsigned int
 	);
 
 /**
-	Loads an HDR image from disk into an OpenGL texture.
+	Loads an HDR imagesandvideos from disk into an OpenGL texture.
 	\param filename the name of the file to upload as a texture
 	\param fake_HDR_format SOIL_HDR_RGBE, SOIL_HDR_RGBdivA, SOIL_HDR_RGBdivA2
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
@@ -223,10 +223,10 @@ unsigned int
 	);
 
 /**
-	Loads an image from RAM into an OpenGL texture.
-	\param buffer the image data in RAM just as if it were still in a file
+	Loads an imagesandvideos from RAM into an OpenGL texture.
+	\param buffer the imagesandvideos data in RAM just as if it were still in a file
 	\param buffer_length the size of the buffer in bytes
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -243,19 +243,19 @@ unsigned int
 
 /**
 	Loads 6 images from memory into an OpenGL cubemap texture.
-	\param x_pos_buffer the image data in RAM to upload as the +x cube face
+	\param x_pos_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param x_pos_buffer_length the size of the above buffer
-	\param x_neg_buffer the image data in RAM to upload as the +x cube face
+	\param x_neg_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param x_neg_buffer_length the size of the above buffer
-	\param y_pos_buffer the image data in RAM to upload as the +x cube face
+	\param y_pos_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param y_pos_buffer_length the size of the above buffer
-	\param y_neg_buffer the image data in RAM to upload as the +x cube face
+	\param y_neg_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param y_neg_buffer_length the size of the above buffer
-	\param z_pos_buffer the image data in RAM to upload as the +x cube face
+	\param z_pos_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param z_pos_buffer_length the size of the above buffer
-	\param z_neg_buffer the image data in RAM to upload as the +x cube face
+	\param z_neg_buffer the imagesandvideos data in RAM to upload as the +x cube face
 	\param z_neg_buffer_length the size of the above buffer
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -281,11 +281,11 @@ unsigned int
 	);
 
 /**
-	Loads 1 image from RAM and splits it into an OpenGL cubemap texture.
-	\param buffer the image data in RAM just as if it were still in a file
+	Loads 1 imagesandvideos from RAM and splits it into an OpenGL cubemap texture.
+	\param buffer the imagesandvideos data in RAM just as if it were still in a file
 	\param buffer_length the size of the buffer in bytes
 	\param face_order the order of the faces in the file, any combination of NSWEUD, for North, South, Up, etc.
-	\param force_channels 0-image format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
+	\param force_channels 0-imagesandvideos format, 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT | SOIL_FLAG_DDS_LOAD_DIRECT
 	\return 0-failed, otherwise returns the OpenGL texture handle
@@ -302,11 +302,11 @@ unsigned int
 	);
 
 /**
-	Creates a 2D OpenGL texture from raw image data.  Note that the raw data is
+	Creates a 2D OpenGL texture from raw imagesandvideos data.  Note that the raw data is
 	_NOT_ freed after the upload (so the user can load various versions).
 	\param data the raw data to be uploaded as an OpenGL texture
-	\param width the width of the image in pixels
-	\param height the height of the image in pixels
+	\param width the width of the imagesandvideos in pixels
+	\param height the height of the imagesandvideos in pixels
 	\param channels the number of channels: 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
 	\param flags can be any of SOIL_FLAG_POWER_OF_TWO | SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT
@@ -322,10 +322,10 @@ unsigned int
 	);
 
 /**
-	Creates an OpenGL cubemap texture by splitting up 1 image into 6 parts.
+	Creates an OpenGL cubemap texture by splitting up 1 imagesandvideos into 6 parts.
 	\param data the raw data to be uploaded as an OpenGL texture
-	\param width the width of the image in pixels
-	\param height the height of the image in pixels
+	\param width the width of the imagesandvideos in pixels
+	\param height the height of the imagesandvideos in pixels
 	\param channels the number of channels: 1-luminous, 2-luminous/alpha, 3-RGB, 4-RGBA
 	\param face_order the order of the faces in the file, and combination of NSWEUD, for North, South, Up, etc.
 	\param reuse_texture_ID 0-generate a new texture ID, otherwise reuse the texture ID (overwriting the old texture)
@@ -356,11 +356,11 @@ int
 	);
 
 /**
-	Loads an image from disk into an array of unsigned chars.
+	Loads an imagesandvideos from disk into an array of unsigned chars.
 	Note that *channels return the original channel count of the
-	image.  If force_channels was other than SOIL_LOAD_AUTO,
-	the resulting image has force_channels, but *channels may be
-	different (if the original image had a different channel
+	imagesandvideos.  If force_channels was other than SOIL_LOAD_AUTO,
+	the resulting imagesandvideos has force_channels, but *channels may be
+	different (if the original imagesandvideos had a different channel
 	count).
 	\return 0 if failed, otherwise returns 1
 **/
@@ -373,11 +373,11 @@ unsigned char*
 	);
 
 /**
-	Loads an image from memory into an array of unsigned chars.
+	Loads an imagesandvideos from memory into an array of unsigned chars.
 	Note that *channels return the original channel count of the
-	image.  If force_channels was other than SOIL_LOAD_AUTO,
-	the resulting image has force_channels, but *channels may be
-	different (if the original image had a different channel
+	imagesandvideos.  If force_channels was other than SOIL_LOAD_AUTO,
+	the resulting imagesandvideos has force_channels, but *channels may be
+	different (if the original imagesandvideos had a different channel
 	count).
 	\return 0 if failed, otherwise returns 1
 **/
@@ -391,7 +391,7 @@ unsigned char*
 	);
 
 /**
-	Saves an image from an array of unsigned chars (RGBA) to disk
+	Saves an imagesandvideos from an array of unsigned chars (RGBA) to disk
 	\return 0 if failed, otherwise returns 1
 **/
 int
@@ -404,7 +404,7 @@ int
 	);
 
 /**
-	Frees the image data (note, this is just C's "free()"...this function is
+	Frees the imagesandvideos data (note, this is just C's "free()"...this function is
 	present mostly so C++ programmers don't forget to use "free()" and call
 	"delete []" instead [8^)
 **/
@@ -416,7 +416,7 @@ void
 
 /**
 	This function resturn a pointer to a string describing the last thing
-	that happened inside SOIL.  It can be used to determine why an image
+	that happened inside SOIL.  It can be used to determine why an imagesandvideos
 	failed to load.
 **/
 const char*

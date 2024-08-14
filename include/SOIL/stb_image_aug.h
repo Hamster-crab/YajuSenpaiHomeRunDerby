@@ -84,22 +84,22 @@
 //    stbi_image_free(data)
 //
 // Standard parameters:
-//    int *x       -- outputs image width in pixels
-//    int *y       -- outputs image height in pixels
-//    int *comp    -- outputs # of image components in image file
-//    int req_comp -- if non-zero, # of image components requested in result
+//    int *x       -- outputs imagesandvideos width in pixels
+//    int *y       -- outputs imagesandvideos height in pixels
+//    int *comp    -- outputs # of imagesandvideos components in imagesandvideos file
+//    int req_comp -- if non-zero, # of imagesandvideos components requested in result
 //
-// The return value from an image loader is an 'unsigned char *' which points
+// The return value from an imagesandvideos loader is an 'unsigned char *' which points
 // to the pixel data. The pixel data consists of *y scanlines of *x pixels,
 // with each pixel consisting of N interleaved 8-bit components; the first
-// pixel pointed to is top-left-most in the image. There is no padding between
-// image scanlines or between pixels, regardless of format. The number of
+// pixel pointed to is top-left-most in the imagesandvideos. There is no padding between
+// imagesandvideos scanlines or between pixels, regardless of format. The number of
 // components N is 'req_comp' if req_comp is non-zero, or *comp otherwise.
 // If req_comp is non-zero, *comp has the number of components that _would_
 // have been output otherwise. E.g. if you set req_comp to 4, you will always
 // get RGBA output, but you can check *comp to easily see if it's opaque.
 //
-// An output image with N components has the following components interleaved
+// An output imagesandvideos with N components has the following components interleaved
 // in this order in each pixel:
 //
 //     N=#comp     components
@@ -108,7 +108,7 @@
 //       3           red, green, blue
 //       4           red, green, blue, alpha
 //
-// If image loading fails for any reason, the return value will be NULL,
+// If imagesandvideos loading fails for any reason, the return value will be NULL,
 // and *x, *y, *comp will be unchanged. The function stbi_failure_reason()
 // can be queried for an extremely brief, end-user unfriendly explanation
 // of why the load failed. Define STBI_NO_FAILURE_STRINGS to avoid
@@ -120,7 +120,7 @@
 //
 // ===========================================================================
 //
-// HDR image support   (disable by defining STBI_NO_HDR)
+// HDR imagesandvideos support   (disable by defining STBI_NO_HDR)
 //
 // stb_image now supports loading HDR images in general, and currently
 // the Radiance .HDR file format, although the support is provided
@@ -148,8 +148,8 @@
 //     stbi_ldr_to_hdr_gamma(2.2f);
 //
 // Finally, given a filename (or an open file or memory block--see header
-// file for details) containing image data, you can query for the "most
-// appropriate" interface to use (that is, whether the image is HDR or
+// file for details) containing imagesandvideos data, you can query for the "most
+// appropriate" interface to use (that is, whether the imagesandvideos is HDR or
 // not), using:
 //
 //     stbi_is_hdr(char *filename);
@@ -188,14 +188,14 @@ extern int      stbi_write_tga       (char const *filename,     int x, int y, in
 
 // PRIMARY API - works on images of any type
 
-// load image by filename, open file, or memory buffer
+// load imagesandvideos by filename, open file, or memory buffer
 #ifndef STBI_NO_STDIO
 extern stbi_uc *stbi_load            (char const *filename,     int *x, int *y, int *comp, int req_comp);
 extern stbi_uc *stbi_load_from_file  (FILE *f,                  int *x, int *y, int *comp, int req_comp);
 extern int      stbi_info_from_file  (FILE *f,                  int *x, int *y, int *comp);
 #endif
 extern stbi_uc *stbi_load_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp, int req_comp);
-// for stbi_load_from_file, file pointer is left pointing immediately after image
+// for stbi_load_from_file, file pointer is left pointing immediately after imagesandvideos
 
 #ifndef STBI_NO_HDR
 #ifndef STBI_NO_STDIO
@@ -216,10 +216,10 @@ extern void   stbi_ldr_to_hdr_scale(float scale);
 // NOT THREADSAFE
 extern char    *stbi_failure_reason  (void); 
 
-// free the loaded image -- this is just free()
+// free the loaded imagesandvideos -- this is just free()
 extern void     stbi_image_free      (void *retval_from_stbi_load);
 
-// get image dimensions & components without fully decoding
+// get imagesandvideos dimensions & components without fully decoding
 extern int      stbi_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp);
 extern int      stbi_is_hdr_from_memory(stbi_uc const *buffer, int len);
 #ifndef STBI_NO_STDIO

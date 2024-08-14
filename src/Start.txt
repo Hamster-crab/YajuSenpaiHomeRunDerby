@@ -1,1 +1,1 @@
-g++ -o main src/main.cpp -lGL -lGLU -lglut -lGLEW -lglfw -lSOIL -lfreetype -I/include/freetype && ./main
+-lGL -lGLU -lglut -lGLEW -lglfw -lSOIL -lfreetype -I/include/freetype

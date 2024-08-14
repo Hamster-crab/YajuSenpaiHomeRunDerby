@@ -11,8 +11,8 @@
 #define HEADER_IMAGE_DXT
 
 /**
-	Converts an image from an array of unsigned chars (RGB or RGBA) to
-	DXT1 or DXT5, then saves the converted image to disk.
+	Converts an imagesandvideos from an array of unsigned chars (RGB or RGBA) to
+	DXT1 or DXT5, then saves the converted imagesandvideos to disk.
 	\return 0 if failed, otherwise returns 1
 **/
 int
@@ -24,7 +24,7 @@ save_image_as_DDS
 );
 
 /**
-	take an image and convert it to DXT1 (no alpha)
+	take an imagesandvideos and convert it to DXT1 (no alpha)
 **/
 unsigned char*
 convert_image_to_DXT1
@@ -35,7 +35,7 @@ convert_image_to_DXT1
 );
 
 /**
-	take an image and convert it to DXT5 (with alpha)
+	take an imagesandvideos and convert it to DXT5 (with alpha)
 **/
 unsigned char*
 convert_image_to_DXT5

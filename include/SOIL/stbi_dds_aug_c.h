@@ -296,7 +296,7 @@ static stbi_uc *dds_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 	flags = DDPF_FOURCC | DDPF_RGB;
 	if( (header.sPixelFormat.dwFlags & flags) == 0 ) return NULL;
 	if( (header.sCaps.dwCaps1 & DDSCAPS_TEXTURE) == 0 ) return NULL;
-	//	get the image data
+	//	get the imagesandvideos data
 	s->img_x = header.dwWidth;
 	s->img_y = header.dwHeight;
 	s->img_n = 4;
@@ -378,7 +378,7 @@ static stbi_uc *dds_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 					}
 				}
 			}
-			/*	done reading and decoding the main image...
+			/*	done reading and decoding the main imagesandvideos...
 				skip MIPmaps if present	*/
 			if( has_mipmap )
 			{
@@ -418,9 +418,9 @@ static stbi_uc *dds_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 		/*	do this once for each face	*/
 		for( cf = 0; cf < cubemap_faces; ++ cf )
 		{
-			/*	read the main image for this face	*/
+			/*	read the main imagesandvideos for this face	*/
 			getn( s, &dds_data[cf*s->img_x*s->img_y*s->img_n], s->img_x*s->img_y*s->img_n );
-			/*	done reading and decoding the main image...
+			/*	done reading and decoding the main imagesandvideos...
 				skip MIPmaps if present	*/
 			if( has_mipmap )
 			{
